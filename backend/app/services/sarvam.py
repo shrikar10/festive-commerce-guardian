@@ -5,7 +5,7 @@ import requests
 URL = "https://api.sarvam.ai/speech-to-text"
 
 
-async def transcribe(audio: bytes, filename: str) -> str:
+async def transcribe(audio: bytes, filename: str, content_type: str = "audio/wav") -> str:
     """Sarvam Saaras v4 speech-to-text (REST, <30s audio)."""
     key = os.getenv("SARVAM_API_KEY")
     if not key:
@@ -13,7 +13,7 @@ async def transcribe(audio: bytes, filename: str) -> str:
     r = requests.post(
         URL,
         headers={"api-subscription-key": key},
-        files={"file": (filename, audio)},
+        files={"file": (filename, audio, content_type)},
         data={"model": "saaras:v4", "mode": "codemix", "language_code": "unknown"},
         timeout=30,
     )

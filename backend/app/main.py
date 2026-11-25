@@ -53,7 +53,9 @@ def get_incident():
 
 @app.post("/api/voice")
 async def voice(audio: UploadFile):
-    text = await sarvam.transcribe(await audio.read(), audio.filename or "audio.wav")
+    text = await sarvam.transcribe(
+        await audio.read(), audio.filename or "audio.wav", audio.content_type or "audio/wav"
+    )
     log(f"Voice transcribed: {text}")
     return {"text": text}
 
