@@ -1,5 +1,9 @@
 from fastapi import FastAPI, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+
+load_dotenv(dotenv_path="../.env")
+load_dotenv()
 
 from .models import Incident
 from .services import flagsmith, sarvam, nudgebee
