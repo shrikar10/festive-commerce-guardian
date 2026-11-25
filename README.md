@@ -26,7 +26,7 @@ cp .env.example .env
 cd backend && pip install -r requirements.txt && uvicorn app.main:app --reload
 cd frontend && npm install && npm run dev
 ```
-Without API keys the backend uses in-memory flags and a canned transcript.
+Without API keys (or with `USE_FLAGSMITH=false`, the default) the backend uses in-memory flags, a canned transcript, and a **mock NudgeBee investigation** (`rca` field on the incident: summary, affected_dependency, confidence, evidence, recommended_fix). Set `USE_FLAGSMITH=true` plus keys to use real Flagsmith.
 
 ## Flagsmith flags
 `product_catalog_fail` (default on), `checkout_fallback_enabled` (default off).

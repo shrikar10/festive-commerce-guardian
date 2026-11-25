@@ -8,8 +8,13 @@ API = "https://edge.api.flagsmith.com/api/v1"
 ADMIN = "https://api.flagsmith.com/api/v1"
 
 
+def _live() -> bool:
+    """Real Flagsmith is opt-in (USE_FLAGSMITH=true); default is in-memory dummy flags."""
+    return os.getenv("USE_FLAGSMITH", "false").lower() == "true"
+
+
 def is_enabled(name: str) -> bool:
-    key = os.getenv("FLAGSMITH_ENVIRONMENT_KEY")
+    key = os.getenv("FLAGSMITH_ENVIRONMENT_KEY") if _live() else None
     if not key:
         return _local[name]
     try:
@@ -33,7 +38,7 @@ def set_flag(name: str, enabled: bool) -> None:
     """Update the flag via the Flagsmith Admin API (FLAGSMITH_API_KEY, backend-only); mirror locally as fallback."""
     _local[name] = enabled
     env, token = os.getenv("FLAGSMITH_ENVIRONMENT_KEY"), os.getenv("FLAGSMITH_API_KEY")
-    if not (env and token):
+    if not (_live() and env and token):
         return
     headers = {"Authorization": f"Token {token}"}
     try:

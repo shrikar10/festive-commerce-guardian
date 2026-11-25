@@ -68,6 +68,7 @@ def investigate():
     incident.status = "awaiting_approval"
     incident.root_cause = result["root_cause"]
     incident.recommended_action = result["recommended_action"]
+    incident.rca = result["rca"]
     log("NudgeBee investigation complete; awaiting approval")
     return incident
 
